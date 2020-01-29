@@ -1,0 +1,62 @@
+<div class="entry-label color-secondary-text  tm16 bm16">
+    {{ 'ZONE_INCLUDE_RULES_LABEL' | translate }}
+</div>
+<div class="pip-ref-list pip-ref-list-entity" ng-if="$ctrl.rulesInclude.length > 0">
+    <div class="pip-ref-list-item  layout-row layout-align-start-center" ng-repeat="rule in $ctrl.rulesInclude track by $index">
+        <div class="rm16" ng-if="rule.severity || $ctrl.severityCollection[rule.severity]">
+            <md-icon md-svg-icon="{{ $ctrl.severityCollection[rule.severity].icon }}" class="{{ $ctrl.severityCollection[rule.severity].class }}">
+            </md-icon>
+        </div>
+        <div class="pip-content content-details" ng-click="$ctrl.selectItem($index)" style="width: calc(100% - 72px);">
+            <p class="text-body2 text-overflow flex">
+                {{ rule.name }}
+            </p>
+            <p class="pip-subtitle text-overflow flex">
+                {{ rule | formatObjectsList }}
+            </p>
+        </div>
+        <div class="iqs-icon">
+            <md-button class="md-icon-button" style="margin-right: -16px" zzzng-if="$ctrl.accessConfig.editZone"
+                       ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone" aria-label="DELETE-OBJECT"
+                       ng-click="$ctrl.onDeleteEventRule('rulesInclude', rule)">
+                <md-icon md-svg-icon="icons:cross"></md-icon>
+                <md-button>
+        </div>
+    </div>
+</div>
+<div class="entry-empty-label" ng-if="$ctrl.rulesInclude.length == 0">
+    <!--32 32-->
+    {{ 'ZONE_INCLUDE_RULES_EMPTY_LABEL' | translate }}
+</div>
+
+
+<div class="entry-label color-secondary-text bm16 tm16">
+    {{ 'ZONE_EXCLUDE_RULES_LABEL' | translate }}
+</div>
+<div class="pip-ref-list pip-ref-list-entity" ng-if="$ctrl.rulesExclude.length > 0">
+    <div class="pip-ref-list-item layout-row layout-align-start-center" ng-repeat="rule in $ctrl.rulesExclude track by $index">
+        <div class="rm16" ng-if="rule.severity || $ctrl.severityCollection[rule.severity]">
+            <md-icon md-svg-icon="{{ $ctrl.severityCollection[rule.severity].icon }}" class="{{ $ctrl.severityCollection[rule.severity].class }}">
+            </md-icon>
+        </div>
+        <div class="pip-content content-details" ng-click="$ctrl.selectItem($index)" style="width: calc(100% - 72px);">
+            <p class="text-body2 text-overflow flex">
+                {{ rule.name }}
+            </p>
+            <p class="pip-subtitle text-overflow flex">
+                {{ rule | formatObjectsList }}
+            </p>
+        </div>
+        <div class="iqs-icon">
+            <md-button class="md-icon-button" style="margin-right: -16px" яяяng-if="$ctrl.accessConfig.editZone"
+                       ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone" aria-label="DELETE-OBJECT"
+                       ng-click="$ctrl.onDeleteEventRule('rulesExclude', rule)">
+                <md-icon md-svg-icon="icons:cross"></md-icon>
+                <md-button>
+        </div>
+    </div>
+</div>
+<div class="entry-empty-label" ng-if="$ctrl.rulesExclude.length == 0">
+    <!--32 32-->
+    {{ 'ZONE_EXCLUDE_RULES_EMPTY_LABEL' | translate }}
+</div>

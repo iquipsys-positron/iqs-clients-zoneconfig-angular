@@ -1,0 +1,83 @@
+<pip-document>
+	<md-progress-linear md-mode="indeterminate" style="position: absolute;" ng-show="$ctrl.ngDisabled() || ($ctrl.transaction && $ctrl.transaction.busy())">
+	</md-progress-linear>
+	<div class="pip-header bp0 rp24 lp24 tp0 ">
+		<div style="width: 100%">
+			<div class="pip-ref-title layout-row layout-align-start-center ">
+				<div class="pip-content">
+					<p class="pip-title bp0">
+						{{ $ctrl.item.name }}
+					</p>
+				</div>
+			</div>
+			<div class="pip-ref-list">
+				<div class="layout-row layout-align-start-center iqs-inform-panel pip-ref-list-item">
+					<md-icon md-svg-icon="icons:key" class="iqs-icon lm0 rm16"></md-icon>
+					<div class="pip-content tp8 bp8">
+						<div class="text-subhead1">
+							{{ $ctrl.item.id }}
+						</div>
+						<div class="pip-subtitle color-secondary-text">
+							{{::'ZONE_ID' | translate}}
+						</div>
+					</div>
+				</div>
+			</div>
+			<md-tabs md-dynamic-height md-selected="$ctrl.section" ng-if="$ctrl.pipMedia('gt-sm') || !$ctrl.pipMedia('gt-sm') && $ctrl.details">
+				<md-tab label="{{ section.title | translate }}" id="{{ section.id }}" ng-repeat="section in $ctrl.sections track by $index"
+				        ng-click="$ctrl.selectSection(section.id)">
+				</md-tab>
+			</md-tabs>
+		</div>
+	</div>
+
+	<div class="pip-body p0 layout-column flex">
+		<div class="m24 bm0 layout-column flex position-relative" style="min-height: 300px;" ng-include="'config/zones/includes/PositionsZone.html'"
+		     ng-if="!$ctrl.startPause && $ctrl.section == 0">
+		</div>
+		<div class="m24" ng-include="'config/zones/includes/EventRulesZone.html'" ng-if="$ctrl.mapOptions && $ctrl.section == 1">
+		</div>
+		<div class="pip-ref-list lp24 rp24">
+			<div class="pip-ref-list-item layout-row layout-align-start-start" ng-if="$ctrl.item.type == 'line' && $ctrl.item.distance  && $ctrl.section == 0">
+				<div class="rm16 tm24">
+					<md-icon md-svg-icon="iqs:rules">
+					</md-icon>
+				</div>
+				<div class="pip-content h40 " ng-class="{'divider-bottom': $ctrl.item.send_signal}">
+					<p class="pip-title">
+						{{ $ctrl.item.distance * 2 }} {{ ::'ZONE_LINE_DISTANCE_MEASURE' | translate }}
+					</p>
+					<p class="pip-subtitle">
+						{{ ::'ZONE_LINE_DISTANCE_LABEL' | translate }}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="pip-footer " style="height: 86px">
+		<div class="pip-action-list w-stretch">
+			<md-button iqs-test-edit class="pip-action-list-item" ng-click="$ctrl.onEdit()" ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone"
+			           ng-if="$ctrl.section == 0 ">
+				<md-icon class="pip-pic" md-svg-icon="icons:pen"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_EDIT' | translate }}</div>
+			</md-button>
+			<md-button iqs-test-delete class="pip-action-list-item" ng-click="$ctrl.onDelete()" ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.deleteZone"
+			           ng-if="$ctrl.section == 0">
+				<md-icon class="pip-pic" md-svg-icon="icons:trash"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_DELETE' | translate}}</div>
+			</md-button>
+
+			<md-button iqs-test-include class="pip-action-list-item" ng-click="$ctrl.onIncludeEventRule()" ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone"
+			           ng-if="$ctrl.section == 1">
+				<md-icon class="pip-pic" md-svg-icon="icons:plus"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_INCLUDE_EVENT_RULE_BUTTON' | translate }}</div>
+			</md-button>
+			<md-button iqs-test-exclude class="pip-action-list-item" ng-click="$ctrl.onExcludeEventRule()" ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone"
+			           ng-if="$ctrl.section == 1">
+				<md-icon class="pip-pic" md-svg-icon="icons:minus"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_EXCLUDE_EVENT_RULE_BUTTON' | translate}}</div>
+			</md-button>
+		</div>
+	</div>
+	<!--</div>	 -->
+</pip-document>

@@ -1,0 +1,189 @@
+<pip-document>
+	<md-progress-linear md-mode="indeterminate" style="position: absolute;" ng-show="$ctrl.ngDisabled() || ($ctrl.transaction && $ctrl.transaction.busy())">
+	</md-progress-linear>
+	<div class="pip-header bp0 rp24 lp24 tp0 " ng-if="!$ctrl.isEdit">
+		<div class="w-stretch ">
+			<div class="pip-ref-title layout-row layout-align-start-center ">
+				<div class="pip-content">
+					<p class="pip-title bp0">
+						{{ $ctrl.item.name }}
+					</p>
+				</div>
+			</div>
+			<div class="pip-ref-list">
+				<div class="layout-row layout-align-start-center iqs-inform-panel pip-ref-list-item">
+					<md-icon md-svg-icon="icons:key" class="iqs-icon lm0 rm16"></md-icon>
+					<div class="pip-content tp8 bp8">
+						<div class="text-subhead1">
+							{{ $ctrl.item.id }}
+						</div>
+						<div class="pip-subtitle  color-secondary-text">
+							{{::'ZONE_ID' | translate}}
+						</div>
+					</div>
+				</div>
+			</div>
+			<md-tabs md-dynamic-height md-selected="$ctrl.section" ng-if="!$ctrl.isEdit && $ctrl.pipMedia('gt-sm') || !$ctrl.pipMedia('gt-sm') && $ctrl.details">
+				<md-tab label="{{ section.title | translate }}" id="{{ section.id }}" ng-repeat="section in $ctrl.sections track by $index"
+				        ng-click="$ctrl.selectSection(section.id)">
+				</md-tab>
+			</md-tabs>
+		</div>
+	</div>
+
+
+	<div class="pip-body p0 layout-column flex">
+		<div class="lm24 rm24 tm8 bm0 layout-column flex position-relative" ng-include="'config/zone_objects/includes/ObjectsZone.html'"
+		     ng-if="$ctrl.section == 0 && !$ctrl.isEdit">
+
+		</div>
+		<div class="m24" ng-include="'config/zone_objects/includes/EventRulesZone.html'" ng-if="$ctrl.section == 1 && !$ctrl.isEdit">
+
+		</div>
+
+		<form name="form" novalidate>
+			<div class="m24 layout-column flex" ng-if="$ctrl.isEdit">
+
+				<div ng-show="$ctrl.error" class="pip-page-errors">
+					<span class="pip-error-text color-error flex"> {{ $ctrl.error | translate }}</span>
+					<md-icon md-svg-icon="icons:warn-circle" class="color-error"></md-icon>
+				</div>
+
+
+				<md-input-container class="md-block flex-fixed bm0">
+					<label>{{::'ZONE_OBJECTS_NAME_LABEL' | translate}}</label>
+					<input iqs-test-name ng-model="$ctrl.item.name" ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone"
+					       iqs-unique-validator iqs-unique-collection="$ctrl.nameCollection" name="zoneName" required>
+
+					<div ng-messages="$ctrl.touchedErrorsWithHint($ctrl.form, $ctrl.form.zoneName, true)" role="alert">
+						<div ng-message="required">{{ 'ZONE_OBJECTS_NAME_REQUIRED_ERROR' | translate }}</div>
+						<div ng-message="uniqueValidate">{{ 'ZONE_NAME_UNIQUE_ERROR' | translate }}</div>
+					</div>
+				</md-input-container>
+
+
+				<md-input-container class="md-block">
+					<label>{{ ::'ZONE_OBJECTS_RADIUS_LABEL' | translate }} ({{ ::'ZONE_OBJECTS_RADIUS_MEASURE' | translate }})</label>
+					<input iqs-test-distance ng-model="$ctrl.item.distance" ng-change="$ctrl.error=''" required ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone"
+					       ng-pattern="/^[0-9]{1,7}$/" name="conditionPresence" type="number" />
+
+					<div ng-messages="$ctrl.touchedErrorsWithHint($ctrl.form, $ctrl.form.conditionPresence, true)" role="alert">
+						<div ng-message="required">{{ 'ZONE_OBJECTS_RADIUS_REQUIRED_ERROR' | translate }}</div>
+						<div ng-message="pattern">{{ 'ZONE_OBJECTS_RADIUS_NOTVALID_ERROR' | translate }}</div>
+					</div>
+				</md-input-container>
+
+
+				<div class="entry-label color-secondary-text  tm16 bm16">
+					{{ 'ZONE_INCLUDE_OBJECTS_LABEL' | translate }}
+				</div>
+				<div class="pip-ref-list" ng-if="$ctrl.objectInclude.length > 0">
+					<div class="pip-ref-list-item  layout-row layout-align-start-center" ng-repeat="object in $ctrl.objectInclude track by $index">
+						<pip-avatar pip-id="object.id" pip-rebind="true" pip-name="object.name" class="pip-face rm16"></pip-avatar>
+						<div class="pip-content rm16">
+							<p class="pip-title">
+								{{ object.name }}
+							</p>
+							<p class="pip-subtitle text-overflow flex" ng-if="object.object_type == $ctrl.objectType">
+								{{ object | formatObjectSubtitle }}
+							</p>
+						</div>
+						<div class="iqs-icon">
+							<md-button class="md-icon-button" style="margin-right: -16px" xxxng-if="$ctrl.accessConfig.editZone" ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone"
+							           aria-label="DELETE-OBJECT" ng-click="$ctrl.onDeleteEntry('objectInclude', object)">
+
+								<md-icon md-svg-icon="icons:cross"></md-icon>
+								<md-button>
+						</div>
+					</div>
+				</div>
+				<div class="entry-empty-label" ng-if="$ctrl.objectInclude.length == 0">
+					<!--32 32-->
+					{{ 'ZONE_INCLUDE_OBJECTS_EMPTY_LABEL' | translate }}
+				</div>
+
+
+				<div class="entry-label color-secondary-text bm16 tm16">
+					{{ 'ZONE_EXCLUDE_OBJECTS_LABEL' | translate }}
+				</div>
+				<div class="pip-ref-list" ng-if="$ctrl.objectExclude.length > 0">
+					<div class="pip-ref-list-item layout-row layout-align-start-center" ng-repeat="object in $ctrl.objectExclude track by $index">
+						<pip-avatar pip-id="object.id" pip-rebind="true" pip-name="object.name" class="pip-face rm16"></pip-avatar>
+						<div class="pip-content rm16">
+							<p class="pip-title">
+								{{ object.name }}
+							</p>
+							<p class="pip-subtitle text-overflow flex" ng-if="object.object_type == $ctrl.objectType">
+								{{ object | formatObjectSubtitle }}
+							</p>
+						</div>
+						<div class="iqs-icon">
+							<md-button class="md-icon-button" style="margin-right: -16px" xxxng-if="$ctrl.accessConfig.editZone" ng-disabled="$ctrl.ngDisabled()  || !$ctrl.accessConfig.editZone"
+							           aria-label="DELETE-OBJECT" ng-click="$ctrl.onDeleteEntry('objectExclude', object)">
+
+								<md-icon md-svg-icon="icons:cross"></md-icon>
+								<md-button>
+						</div>
+					</div>
+				</div>
+				<div class="entry-empty-label" ng-if="$ctrl.objectExclude.length == 0">
+					<!--32 32-->
+					{{ 'ZONE_EXCLUDE_OBJECTS_EMPTY_LABEL' | translate }}
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+	<div class="pip-footer " style="height: 86px">
+		<div class="pip-action-list w-stretch" ng-if="!$ctrl.isEdit && $ctrl.section == 0">
+			<md-button iqs-test-edit class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.editZone" ng-click="$ctrl.onEdit()"
+			           ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone">
+				<md-icon class="pip-pic" md-svg-icon="icons:pen"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_OBJECTS_EDIT' | translate }}</div>
+			</md-button>
+			<md-button iqs-test-delete class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.deleteZone" ng-click="$ctrl.onDelete()"
+			           ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.deleteZone">
+				<md-icon class="pip-pic" md-svg-icon="icons:trash"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_OBJECTS_DELETE' | translate}}</div>
+			</md-button>
+		</div>
+
+		<div class="pip-action-list w-stretch" ng-if="$ctrl.isEdit && $ctrl.section == 0">
+			<md-button iqs-test-include class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.editZone" ng-click="$ctrl.onIncludeObject()"
+			           ng-disabled="$ctrl.ngDisabled()">
+				<md-icon class="pip-pic" md-svg-icon="icons:plus"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_OBJECTS_INCLUDE_OBJECT' | translate }}</div>
+			</md-button>
+			<md-button iqs-test-exclude class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.editZone" ng-click="$ctrl.onExcludeObject()"
+			           ng-disabled="$ctrl.ngDisabled()  || !$ctrl.accessConfig.editZone">
+				<md-icon class="pip-pic" md-svg-icon="icons:minus"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_OBJECTS_EXCLUDE_OBJECT' | translate}}</div>
+			</md-button>
+
+			<md-button iqs-test-save class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.editZone" ng-click="$ctrl.onSaveClick()"
+			           ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone">
+				<md-icon class="pip-pic" md-svg-icon="icons:check"></md-icon>
+				<div class="pip-title">{{'ZONE_OBJECTS_SAVE' | translate }}</div>
+			</md-button>
+			<md-button iqs-test-cancel class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.editZone" ng-click="$ctrl.onCancelClick()"
+			           ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone">
+				<md-icon class="pip-pic" md-svg-icon="icons:cross"></md-icon>
+				<div class="pip-title">{{'ZONE_OBJECTS_CANCEL' | translate}}</div>
+			</md-button>
+		</div>
+
+		<div class="pip-action-list w-stretch" ng-if="$ctrl.section == 1">
+			<md-button class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.editZone" ng-click="$ctrl.onIncludeEventRule()"
+			           ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone">
+				<md-icon class="pip-pic" md-svg-icon="icons:plus"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_INCLUDE_EVENT_RULE_BUTTON' | translate }}</div>
+			</md-button>
+			<md-button class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.editZone" ng-click="$ctrl.onExcludeEventRule()"
+			           ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editZone">
+				<md-icon class="pip-pic" md-svg-icon="icons:minus"></md-icon>
+				<div class="pip-title">{{ ::'ZONE_EXCLUDE_EVENT_RULE_BUTTON' | translate}}</div>
+			</md-button>
+		</div>
+	</div>
+</pip-document>

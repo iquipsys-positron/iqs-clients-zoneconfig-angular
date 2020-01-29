@@ -1,0 +1,97 @@
+<div class="pip-main-menu iqs-zone" ng-class="{'pip-single-content': $ctrl.details}">
+	<div class="pip-menu layout-column iqs-menu ">
+		<div class="m16">
+			<iqs-global-search-panel ng-disabled="$ctrl.state == 'edit' || $ctrl.state == 'add' || $ctrl.isPreLoading" iqs-search-query="$ctrl.searchQuery"
+			                         iqs-search-callback="$ctrl.onSearchResult(query)" iqs-cancel-callback="$ctrl.onCanselSearch()"
+			                         iqs-placeholder="'ZONES_SEARCH_PLACEHOLDER'" iqs-search-collection="$ctrl.searchedCollection">
+			</iqs-global-search-panel>
+		</div>
+
+		<div ng-show="$ctrl.error" class="pip-page-errors">
+			<span class="pip-error-text color-error flex"> {{ $ctrl.error }}</span>
+			<md-icon md-svg-icon="icons:warn-circle" class="color-error"></md-icon>
+		</div>
+
+		<div class="flex" style="position: relative" ng-if="($ctrl.state == 'data' || $ctrl.state == 'edit' || $ctrl.state == 'add') && !$ctrl.isPreLoading">
+
+			<md-list class="pip-ref-list iqs-zone-list tp0 w-stretch h-stretch  iqs-abs-list " pip-selected="$ctrl.selectedIndex"
+			         pip-select="$ctrl.selectItem($event.index)" pip-selected-watch="$ctrl.selectedIndex">
+
+				<md-list-item class="pip-ref-list-item pointer pip-selectable divider-bottom selected" md-ink-ripple ng-if="$ctrl.state == 'add'"
+				              id="new-item">
+					<div ng-click="$ctrl.selectItem($event.index)" class="layout-row w-stretch">
+
+						<div class="pip-content">
+							<p class="text-body2 text-overflow flex">
+								{{ ::'ZONE_NEW_ZONE' | translate }}
+							</p>
+						</div>
+					</div>
+				</md-list-item>
+
+				<md-list-item class="pip-ref-list-item  divider-bottom 
+{{ $ctrl.state != 'add' && $ctrl.state != 'edit' ? 'pip-selectable pointer' : $ctrl.state !='add' && $ctrl.selectedIndex == $index ? 'iqs-selected' : 'iqs-not-selectable' }}"
+				              ng-class="{'selected': $ctrl.selectedIndex == $index && $ctrl.state != 'add' && $ctrl.pipMedia('gt-sm')}"
+				              md-ink-ripple ng-repeat="zone in $ctrl.collection track by $index">
+					<div class="pip-content" ng-click="$ctrl.selectItem($index)">
+						<p class="text-body2 text-overflow flex">
+							{{ zone.name }}
+						</p>
+					</div>
+				</md-list-item>
+			</md-list>
+		</div>
+
+		<div class="pip-list-container iqs-menu-empty" ng-if="($ctrl.state == 'empty' || $ctrl.state == 'progress' || $ctrl.isPreLoading) && $ctrl.pipMedia('gt-sm')">
+		</div>
+
+		<div class="pip-list-container pip-scroll" style="height: calc( 100% - 72px); top: 72px;  overflow-x: hidden;" ng-if="($ctrl.state == 'empty' || $ctrl.state == 'progress' || $ctrl.isPreLoading) && !$ctrl.pipMedia('gt-sm')">
+			<div class="layout-column layout-align-center-center flex h-stretch iqs-empty">
+				<div class="pip-empty" ng-if="$ctrl.state == 'empty' && !$ctrl.isPreLoading">
+					<img src="images/empty/empty.svg" class="pip-pic">
+					<div class="pip-text">
+						{{ ::'ZONES_EMPTY_TITLE' | translate }} <br><br>
+						{{ ::'ZONES_EMPTY_SUBTITLE' | translate }}
+					</div>
+					<div class="pip-actions layout-row layout-align-end-center">
+						<md-button class="color-accent-bg tm12 flex" aria-label="DOWNLOAD" ng-click="$ctrl.onAdd()" ng-disabled="$ctrl.ngDisabled()">
+							{{ ::'ZONES_EMPTY_ADD_BUTTON' | translate }}
+						</md-button>
+					</div>
+				</div>
+
+				<div class="pip-empty" ng-if="$ctrl.state == 'progress' || $ctrl.isPreLoading">
+					<img src="images/empty/progress.svg" class="pip-pic">
+					<div class="pip-text">
+						{{ ::'ZONES_LOADING_TITLE' | translate }}
+						<md-progress-linear md-mode="indeterminate" class="tm24"></md-progress-linear>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<md-button iqs-test-add class="md-fab md-accent md-fab-bottom-right" ng-if="$ctrl.state == 'data' && !$ctrl.isPreLoading" ng-disabled="$ctrl.transaction.busy()"
+		           aria-label="add" ng-click="$ctrl.onAdd()">
+			<md-icon md-svg-icon="icons:plus"></md-icon>
+		</md-button>
+	</div>
+	<div class="pip-content-container">
+
+		<iqs-details-zone-panel ng-if="$ctrl.state == 'data' && $ctrl.collection[$ctrl.selectedIndex] && !$ctrl.isPreLoading" iqs-zone-item="$ctrl.collection[$ctrl.selectedIndex]"
+		                        iqs-details="$ctrl.details" iqs-edit="$ctrl.onEdit()" iqs-save="$ctrl.onSave(item)"
+		                        iqs-map-options="$ctrl.mapOptions" iqs-zoom="$ctrl.mapZoom" iqs-zoom-change="$ctrl.onZoomChange(zoom)"
+		                        iqs-transaction="$ctrl.transaction" iqs-delete="$ctrl.onDelete()" ng-disabled="$ctrl.transaction.busy()">
+		</iqs-details-zone-panel>
+
+		<iqs-zone-empty-panel ng-if="$ctrl.state == 'empty' || $ctrl.state == 'progress' || $ctrl.isPreLoading" iqs-state="$ctrl.state" iqs-add="$ctrl.onAdd()"
+		                      iqs-state="$ctrl.state" iqs-pre-loading="$ctrl.isPreLoading" ng-disabled="$ctrl.transaction.busy()">
+		</iqs-zone-empty-panel>
+
+		<iqs-position-zone-edit-panel ng-if="($ctrl.state == 'edit' || $ctrl.state == 'add') && $ctrl.mapOptions && !$ctrl.isPreLoading" iqs-save="$ctrl.onSave(item)"
+		                              iqs-cancel="$ctrl.onCancel()" iqs-name-collection="$ctrl.nameCollection" iqs-zoom="$ctrl.mapZoom"
+		                              iqs-zoom-change="$ctrl.onZoomChange(zoom)" iqs-map-options="$ctrl.mapOptions"
+		                              iqs-new-item="$ctrl.new" iqs-edit-item="$ctrl.edit" ng-disabled="$ctrl.transaction.busy()">
+		</iqs-position-zone-edit-panel>
+
+	</div>
+</div>

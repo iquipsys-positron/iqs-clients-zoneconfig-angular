@@ -1,0 +1,49 @@
+<pip-document>
+    <div class="pip-header bp0 rp24 lp24 tp0">
+        <div class="w-stretch">
+            <div class="pip-ref-item layout-row">
+                <div class="pip-content flex">
+                    <p class="pip-title">{{$ctrl.item.name}}</p>
+                </div>
+            </div>
+
+            <div class="layout-row layout-align-start-center iqs-inform-panel pip-ref-list-item">
+                <md-icon md-svg-icon="icons:key" class="iqs-icon lm0 rm16"></md-icon>
+                <div class="pip-content tp8 bp8">
+                    <div class="text-subhead1">
+                        {{ $ctrl.item.id }}
+                    </div>
+                    <div class="pip-subtitle color-secondary-text">
+                        {{::'LOCATION_ID' | translate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pip-body p0 layout-column flex">
+        <div class="iqs-location-container layout-column flex" style="min-height: 300px;">
+            <iqs-incidents-map-panel iqs-object="$ctrl.curLocation" ng-if="$ctrl.curLocation && $ctrl.curLocation.latitude && $ctrl.curLocation.longitude">
+            </iqs-incidents-map-panel>
+        </div>
+    </div>
+    <div class="pip-footer " style="height: 86px">
+        <div class="pip-action-list w-stretch">
+            <md-button iqs-test-edit class="pip-action-list-item" xxng-if="$ctrl.accessConfig.editLocation" ng-click="$ctrl.onEdit()"
+                       ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.editLocation">
+
+                <md-icon class="pip-pic" md-svg-icon="icons:pen"></md-icon>
+                <div class="pip-title">
+                    {{ ::'LOCATION_EDIT' | translate }}
+                </div>
+            </md-button>
+            <md-button iqs-test-delete class="pip-action-list-item" xxxng-if="$ctrl.accessConfig.addLocation" ng-click="$ctrl.onDelete()"
+                       ng-disabled="$ctrl.ngDisabled() || !$ctrl.accessConfig.addLocation">
+
+                <md-icon class="pip-pic" md-svg-icon="icons:trash"></md-icon>
+                <div class="pip-title">
+                    {{ ::'LOCATION_DELETE' | translate}}
+                </div>
+            </md-button>
+        </div>
+    </div>
+</pip-document>

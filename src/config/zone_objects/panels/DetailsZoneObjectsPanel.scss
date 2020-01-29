@@ -1,0 +1,30 @@
+.iqs-zone {
+    .iqs-zone-objects-details {
+        .entry-empty-label {
+            padding: 32px 0px;
+            text-align: center;
+        }
+        .entry-label {
+            text-overflow: hidden;
+        }
+        .pip-ref-title {
+            .big-icon {
+                width: 48px;
+                height: 48px;
+                margin-right: 16px;
+                md-icon {
+                    width: 48px;
+                    height: 48px;
+                }
+            }
+        }
+        .pip-ref-list-entity {
+            .iqs-icon {
+                margin-right: -8px !important;
+            }
+            .pip-content {
+                max-width: calc(100% - 72px);
+            }
+        }
+    }
+}

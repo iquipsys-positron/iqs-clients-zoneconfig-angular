@@ -1,0 +1,28 @@
+.iqs-location-edit-panel,
+.iqs-location-panel {
+    .iqs-location-container {
+        height: 100%;
+        margin: 8px 24px 24px 24px;
+        position: relative;
+        .iqs-map-edit-zoom-buttons {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+        }
+        .iqs-map-edit-overlay-buttons {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+        }
+        .iqs-map-edit-clear-buttons {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+        }
+        .iqs-map-edit-center-buttons {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+        }
+    }
+}

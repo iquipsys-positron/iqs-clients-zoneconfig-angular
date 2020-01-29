@@ -1,0 +1,61 @@
+<div class="pip-ref-list">
+    <div class="pip-ref-list-item layout-row layout-align-start-start" ng-if="$ctrl.item.distance  && $ctrl.section == 0">
+        <div class="rm16 tm24">
+            <md-icon md-svg-icon="iqs:draw-circle">
+            </md-icon>
+        </div>
+        <div class="pip-content h40 " ng-class="{'divider-bottom': $ctrl.item.send_signal}">
+            <p class="pip-title">
+                {{ $ctrl.item.distance }} {{ ::'ZONE_OBJECTS_RADIUS_MEASURE' | translate }}
+            </p>
+            <p class="pip-subtitle">
+                {{ ::'ZONE_OBJECTS_RADIUS_LABEL1' | translate }}
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="entry-label color-secondary-text  tm8 bm16">
+    {{ 'ZONE_INCLUDE_OBJECTS_LABEL' | translate }}
+</div>
+<div class="pip-ref-list" ng-if="$ctrl.objectInclude.length > 0">
+    <div class="pip-ref-list-item  layout-row layout-align-start-center" ng-repeat="object in $ctrl.objectInclude track by $index">
+        <pip-avatar pip-id="object.id" pip-rebind="true" pip-name="object.name" class="pip-face rm16"></pip-avatar>
+        <div class="pip-content rm16">
+            <p class="pip-title">
+                {{ object.name }}
+            </p>
+            <p class="pip-subtitle text-overflow flex" ng-if="object.object_type == $ctrl.objectType">
+                {{ object | formatObjectSubtitle }}
+            </p>
+        </div>
+
+    </div>
+</div>
+<div class="entry-empty-label" ng-if="$ctrl.objectInclude.length == 0">
+    <!--32 32-->
+    {{ 'ZONE_INCLUDE_OBJECTS_EMPTY_LABEL' | translate }}
+</div>
+
+
+<div class="entry-label color-secondary-text bm16 tm16" ng-if="$ctrl.objectExclude.length > 0">
+    {{ 'ZONE_EXCLUDE_OBJECTS_LABEL' | translate }}
+</div>
+<div class="pip-ref-list" ng-if="$ctrl.objectExclude.length > 0">
+    <div class="pip-ref-list-item layout-row layout-align-start-center" ng-repeat="object in $ctrl.objectExclude track by $index">
+        <pip-avatar pip-id="object.id" pip-rebind="true" pip-name="object.name" class="pip-face rm16"></pip-avatar>
+        <div class="pip-content rm16">
+            <p class="pip-title">
+                {{ object.name }}
+            </p>
+            <p class="pip-subtitle text-overflow flex" ng-if="object.object_type == $ctrl.objectType">
+                {{ object | formatObjectSubtitle }}
+            </p>
+        </div>
+
+    </div>
+</div>
+<div class="entry-empty-label" ng-if="$ctrl.objectInclude.length == 0">
+    <!--32 32-->
+    {{ 'ZONE_EXCLUDE_OBJECTS_EMPTY_LABEL' | translate }}
+</div>

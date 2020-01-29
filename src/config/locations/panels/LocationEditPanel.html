@@ -1,0 +1,85 @@
+<pip-document>
+    <md-progress-linear md-mode="indeterminate" style="position: absolute;" ng-show="$ctrl.ngDisabled() || ($ctrl.transaction && $ctrl.transaction.busy())"></md-progress-linear>
+    <div class="pip-header p24 bp0">
+        <div class="w-stretch">
+            <div ng-show="$ctrl.error" class="pip-page-errors">
+                <span class="pip-error-text color-error flex"> {{ $ctrl.error | translate }}</span>
+                <md-icon md-svg-icon="icons:warn-circle" class="color-error"></md-icon>
+            </div>
+            <form name="form" novalidate>
+                <div class="pip-ref-item layout-row">
+                    <md-input-container class="md-block flex tm24 bm0">
+                        <label>{{::'LOCATION_NAME' | translate}}</label>
+                        <input iqs-test-name ng-model="$ctrl.location.name" iqs-unique-validator iqs-unique-collection="$ctrl.nameCollection"
+                               name="label">
+
+                        <div ng-messages="$ctrl.touchedErrorsWithHint($ctrl.form, $ctrl.form.label)" role="alert">
+                            <div ng-message="uniqueValidate">{{ 'LOCATION_LABEL_UNIQUE_ERROR' | translate }}</div>
+                        </div>
+                    </md-input-container>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="pip-body p0 layout-column flex">
+
+        <div iqs-test-container-map class="iqs-location-container flex" style="position: relative; min-height: 300px;">
+            <pip-map-edit ng-if="$ctrl.mapOptions && !$ctrl.startPause" pip-show-action-panel="false" pip-overlay="$ctrl.currentLocation"
+                          pip-on-edit="$ctrl.onEdit(overlay, type, path, center, radius)" pip-map-options="$ctrl.mapOptions"
+                          pip-disabled="false" pip-control="$ctrl.setControl(control)">
+            </pip-map-edit>
+            <div class="iqs-map-edit-zoom-buttons" ng-if="$ctrl.mapOptions">
+                <iqs-zoom-buttons-panel iqs-zoom-in="$ctrl.onZoomIn()" iqs-zoom-out="$ctrl.onZoomOut()"></iqs-zoom-buttons-panel>
+            </div>
+
+            <div class="iqs-map-edit-overlay-buttons layout-column">
+                <md-button iqs-test-tool-pan aria-label="DrawCircle" ng-click="$ctrl.selectSection(0)" ng-class="{'md-accent': $ctrl.section === 0 }"
+                           class="md-fab md-raised md-mini">
+                    <md-tooltip md-visible="showTooltip" md-direction="right">
+                        {{ 'ZONE_PAN' | translate }}
+                    </md-tooltip>
+                    <md-icon md-svg-icon="iqs:draw-pan" aria-label="DrawCircle"></md-icon>
+                </md-button>
+                <md-button iqs-test-tool-add aria-label="DrawCircle" ng-click="$ctrl.selectSection(1)" ng-class="{'md-accent': $ctrl.section === 1 }"
+                           class="md-fab md-raised md-mini">
+                    <md-tooltip md-visible="showTooltip" md-direction="right">
+                        {{ 'LOCATION_EMPTY_ADD_BUTTON' | translate }}
+                    </md-tooltip>
+                    <md-icon md-svg-icon="icons:pen" aria-label="DrawCircle"></md-icon>
+                </md-button>
+            </div>
+
+            <div class="iqs-map-edit-clear-buttons layout-column">
+                <md-button iqs-test-tool-clear aria-label="ClearMap" ng-click="$ctrl.clearMap()" class="md-fab md-raised md-mini">
+                    <md-tooltip md-visible="showTooltip" md-direction="right">
+                        {{ 'ZONE_CLEAR_MAP' | translate }}
+                    </md-tooltip>
+                    <md-icon md-svg-icon="iqs:draw-clear" aria-label="ClearMap"></md-icon>
+                </md-button>
+            </div>
+
+            <div class="iqs-map-edit-center-buttons layout-column" ng-if="$ctrl.mapOptions">
+                <md-button iqs-test-tool-center aria-label="ClearMap" ng-click="$ctrl.toCenter()" class="md-fab md-raised md-mini">
+                    <md-tooltip md-visible="showTooltip" md-direction="left">
+                        {{ 'TO_CENTER' | translate }}
+                    </md-tooltip>
+                    <md-icon md-svg-icon="icons:target" aria-label="ClearMap"></md-icon>
+                </md-button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="pip-footer " style="height: 86px">
+        <div class="pip-action-list w-stretch">
+            <md-button iqs-test-save class="pip-action-list-item" ng-click="$ctrl.onSaveClick()" ng-disabled="$ctrl.ngDisabled() || !$ctrl.location.name || $ctrl.error">
+                <md-icon class="pip-pic" md-svg-icon="icons:check"></md-icon>
+                <div class="pip-title">{{::'LOCATION_SAVE' | translate }}</div>
+            </md-button>
+            <md-button iqs-test-cancel class="pip-action-list-item" ng-click="$ctrl.onCancelClick()" ng-disabled="$ctrl.ngDisabled()">
+                <md-icon class="pip-pic" md-svg-icon="icons:cross"></md-icon>
+                <div class="pip-title">{{::'LOCATION_CANCEL' | translate}}</div>
+            </md-button>
+        </div>
+    </div>
+</pip-document>
