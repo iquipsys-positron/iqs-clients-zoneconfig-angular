@@ -4,7 +4,7 @@ angular
         'iqsZoomButtonsPanel',
         'iqsLocations.SaveService',
 
-
+        'iqsAccessConfig',
         'iqsLocationPanel',
         'iqsLocationEmptyPanel',
         'iqsLocationEditPanel',

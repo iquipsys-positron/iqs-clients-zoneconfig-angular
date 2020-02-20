@@ -423,7 +423,7 @@ function configureZonesZonesAccess(
             'iqsGlobalSearch',
             'iqsZoomButtonsPanel',
 
-
+            'iqsAccessConfig',
             'iqsZoneEmptyPanel',
             'iqsDetailsZonePanel',
             'iqsPositionZoneEditPanel',

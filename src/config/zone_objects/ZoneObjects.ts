@@ -390,6 +390,7 @@ function configureZoneObjectsAccess(
             'pipNav', 'iqsZones.ViewModel',
             'iqsGlobalSearch',
 
+            'iqsAccessConfig',
             'iqsZoneObjectsEmptyPanel',
             'iqsDetailsZoneObjectsPanel',
 
