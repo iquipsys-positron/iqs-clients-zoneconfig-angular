@@ -167,6 +167,9 @@ class ZonePanelController implements ng.IController {
                 if (!ruleCollection[index].include_zone_ids) {
                     ruleCollection[index].include_zone_ids = [];
                 }
+                if (!ruleCollection[index].exclude_zone_ids) {
+                    ruleCollection[index].exclude_zone_ids = [];
+                }
 
                 if (!ruleCollection[index].all_zones && ruleCollection[index].include_zone_ids.indexOf(this.item.id) == -1) {
                     ruleCollection[index].include_zone_ids.push(this.item.id);
